@@ -195,7 +195,6 @@ for struct in structs:
             
             isLikeAfter = False
 
-
     if struct.keyword == 'LIKE':
         isLikeAfter = True
 
