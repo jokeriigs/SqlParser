@@ -349,6 +349,7 @@ class SQLParser:
         return src
 
     def getAfterString(self, src, val):
+
         
         rtn = ""
         startpos = src.find(val)

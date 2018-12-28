@@ -7,10 +7,11 @@ class SqlStruct:
     depth = -1
     no = -1
     pos = -1
+    objectLineOrder = -1
     filename = ""
     isComment = False
 
-    def __init__(self, oid, group, part, keyword, line, depth, no, pos, isComment, filename):
+    def __init__(self, oid, group, part, keyword, line, depth, no, pos, isComment, filename, objectLineOrder):
         self.oid = oid
         self.group = group
         self.part = part
@@ -21,3 +22,4 @@ class SqlStruct:
         self.pos = pos
         self.isComment = isComment
         self.filename = filename
+        self.objectLineOrder = objectLineOrder

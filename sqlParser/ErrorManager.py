@@ -12,7 +12,7 @@ class ErrorManager:
 
         f = open("C:\\Log\\SqlParse.log", "a")
         now = datetime.datetime.now()
-        f.write("[" + now.strftime('%Y-%m-%d %H-%M-%S') + "] :" + query + "\n")
+        f.write("[" + now.strftime('%Y-%m-%d %H:%M:%S') + "] :" + query + "\n")
 
         f.close()
 
