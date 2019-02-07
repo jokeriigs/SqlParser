@@ -1,3 +1,5 @@
+import os
+
 class ParseUtil:
     
     clauseNo = 0
@@ -78,14 +80,48 @@ class ParseUtil:
 
         return rtn
 
-    def getPartLines(self, structList, clauseNo, part):
+    def getPartLines(self, structList, clauseNo, part, group = ''):
         rtn = []
 
-        for item in structList:
-            if item.no == clauseNo and item.part == part and rtn.count(item.line) == 0:
-                rtn.append(item.line)
+        if group == '':
+            for item in structList:
+                if item.no == clauseNo and item.part == part and rtn.count(item.line) == 0:
+                    rtn.append(item.line)
+        else:
+            for item in structList:
+                if item.no == clauseNo and item.group == group and rtn.count(item.line) == 0:
+                    rtn.append(item.line)
 
-        return rtn 
+        return rtn
+
+    def getPartStructs(self, structList, clauseNo, part, group = '', removeComment = True):
+        rtn = []
+
+        if group == '':
+            for item in structList:
+                if item.no == clauseNo and item.part == part \
+                    and item.isComment != removeComment:
+                    rtn.append(item)
+        else:
+            for item in structList:
+                if item.no == clauseNo and item.group == group \
+                    and item.isComment != removeComment:
+                    rtn.append(item)
+
+        return rtn
+
+    def getHeaderComment(self, structList):
+        rtn = []
+
+        for item in structList:            
+            rtn.append(item)
+            if item == '*/':
+                rtn.append(item)
+                break
+
+        return rtn
+
+            
 
     def getCountStruct(self, structList, val):
 
@@ -170,11 +206,33 @@ class ParseUtil:
 
         return rtn   
 
+    def getSQLFiles(self, dirname):
+        try:
+            
+            rtn = []
+
+            filenames = os.listdir(dirname)
+            for filename in filenames:
+                full_filename = os.path.join(dirname, filename)
+                if os.path.isdir(full_filename):
+                    rtn.extend(self.getSQLFiles(full_filename))
+                else:
+                    ext = os.path.splitext(full_filename)[-1]
+                    if ext == '.sql': 
+                        rtn.append(full_filename)
+
+            return rtn
+
+        except PermissionError:
+            pass
 
 
-    def printStruct(self, structList):
+    def printStruct(self, structList, filename):
 
-        f = open("C:\\Log\\SqlParseStruct.log", "w")
+        if filename == '':
+            f = open("C:\\Log\\SqlParseStruct.log", "w")
+        else:
+            f = open("C:\\Log\\" + filename, "w")
 
         for item in structList:
             f.write(str(item.line) + " : " + item.group + " : " + item.part + " : " + item.keyword + " : " + str(item.depth) + " : " + str(item.no) + "\r\n" )

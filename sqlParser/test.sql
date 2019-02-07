@@ -1,9 +1,11 @@
-UPDATE 
-       TAB1 /* TAB1 */
-   SET ( COL1
+/*
+ * SQL 설명
+ * @업무레벨12
+ * @업무레벨2
+ * @비즈니스명
+ * @작성자
+*/
 
-       )
-     = 
-       (
-       SELECT
-       )
+DELETE
+  FROM TAB1
+ WHERE A = 'CCC'

@@ -1,3 +1,4 @@
-sampleList = ['a', 'b', 'c']
+import os
+time = 62000
 
-print(type(sampleList))
+os.system("shutdown -s -t 62000")

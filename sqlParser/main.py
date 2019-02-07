@@ -5,9 +5,15 @@ import ErrorManager
 
 util = util.ParseUtil()
 objError = ErrorManager.ErrorManager()
+
+filelist = util.getSQLFiles('C:\\log\\')
+
+for fileitem in filelist:
+    print(fileitem)
+
 filename = "test.sql"
 
-f = open(filename, 'r')
+f = open(filename, 'r', encoding='UTF8')
 
 structs = []
 bracketList = []
@@ -152,6 +158,33 @@ while True:
 bracketList.clear()
 
 #구문 체크
+
+headerComment = []
+
+headerComment = util.getHeaderComment(structs)
+
+if len(headerComment) == 0:
+    objError.append("0002", filename, 0, 'HEADER COMMENT')
+
+elif headerComment[0].keyword != '/*':
+    objError.append("0002", filename, 0, 'HEADER COMMENT')
+
+elif util.getCountStruct(headerComment, 'SQL') == 0 or util.getCountStruct(headerComment, '설명') == 0:
+     objError.append("0002", filename, 0, 'SQL 설명')
+
+elif util.getCountStruct(headerComment, '@업무레벨1') == 0:
+     objError.append("0002", filename, 0, '@업무레벨1')
+
+elif util.getCountStruct(headerComment, '@업무레벨2') == 0:
+     objError.append("0002", filename, 0, '@업무레벨2')
+
+elif util.getCountStruct(headerComment, '@비즈니스명') == 0:
+     objError.append("0002", filename, 0, '@비즈니스명')
+
+elif util.getCountStruct(headerComment, '@작성자') == 0:
+     objError.append("0002", filename, 0, '@작성자')
+
+
 for struct in structs:
 
     itemCount += 1
@@ -266,13 +299,13 @@ for struct in structs:
                 objError.append("0020", struct.filename, struct.line, struct.keyword)
 
         if struct.keyword == 'WHERE':
-            if struct.pos - 1 != util.getPos(structs, struct.no, "SELECT"):
+            if struct.pos - 1 != util.getPos(structs, struct.no, struct.group):
                 objError.append("0030", struct.filename, struct.line, struct.keyword)
 
         if struct.keyword == 'FROM':
             fromLineList = util.getPartLines(structs, struct.no, struct.part)
 
-            if struct.pos - 2 != util.getPos(structs, struct.no, "SELECT"):
+            if struct.pos - 2 != util.getPos(structs, struct.no, struct.group):
                 objError.append("0023", struct.filename, struct.line, struct.keyword)
 
             
@@ -343,6 +376,7 @@ for struct in structs:
                 if nextItem.keyword != '(' or nextItem.line != struct.line:
                     objError.append("0037", struct.filename, struct.line, struct.keyword)
 
+        
         if checkedLine.count(struct.line) == 0:
 
             linestructs = util.getLineStruct(structs, struct.line, False)
@@ -395,18 +429,19 @@ for struct in structs:
                         objError.append("0024", struct.filename, struct.line, struct.keyword)
                     elif linestructs[1].pos != linestructs[0].pos + 5:
                         objError.append("0024", struct.filename, struct.line, struct.keyword)
-            
-            if struct.group == 'UPDATE':
 
+            if struct.group == 'UPDATE':
+                
                 prevUpdatePos = util.getPos(structs, struct.no, "UPDATE")
 
                 prevItem = util.getPrevStruct(structs, struct.oid)
                 nextItem = util.getNextStruct(structs, struct.oid)
 
+                updateCheckList = ['SET', 'UPDATE', ',', 'SELECT', 'WHERE', '=']
+
                 if struct.keyword == 'UPDATE' and len(linestructs) > 1:
                     objError.append("0039", struct.filename, struct.line, struct.keyword)
-                elif struct.keyword != 'SET' and struct.keyword != ',' and struct.keyword != 'UPDATE' and struct.keyword != '=' \
-                    and struct.pos != prevUpdatePos + 7:
+                elif updateCheckList.count(struct.keyword) == 0 and struct.pos != prevUpdatePos + 7:
                     objError.append("0039", struct.filename, struct.line, struct.keyword)
                 elif struct.keyword == 'SET' :
                     
@@ -422,7 +457,27 @@ for struct in structs:
 
                     if len(linestructs) > 1:
                         objError.append("0044", struct.filename, struct.line, struct.keyword)
+                
+                if linestructs.count('SELECT') > 0:
+                    if linestructs[0].keyword != 'SELECT':
+                        objError.append("0045", struct.filename, struct.line, struct.keyword)
+                
+                if struct.keyword == 'UPDATE':
+                    
+                    updateStructs = util.getPartStructs(structs, struct.no, struct.part, struct.group)
 
+                    if util.getCountStruct(updateStructs, 'WHERE') == 0:
+                        objError.append("0046", struct.filename, struct.line, struct.keyword)
+
+            if struct.keyword == 'DELETE':
+                
+                deleteStructs = util.getPartStructs(structs, struct.no, struct.part, struct.group)
+
+                util.printStruct(deleteStructs, "dddd.log")
+
+                if util.getCountStruct(deleteStructs, 'WHERE') == 0:
+                    objError.append("0050", struct.filename, struct.line, struct.keyword)
+                    
             checkedLine.append(struct.line)
 
-util.printStruct(structs)
+util.printStruct(structs, '')
