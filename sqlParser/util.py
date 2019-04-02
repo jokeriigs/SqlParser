@@ -238,5 +238,3 @@ class ParseUtil:
             f.write(str(item.line) + " : " + item.group + " : " + item.part + " : " + item.keyword + " : " + str(item.depth) + " : " + str(item.no) + "\r\n" )
 
         f.close()
-        
-        
