@@ -1,7 +1,6 @@
 import pymysql
 import datetime
 
-from loger import loger
 from configparser import ConfigParser
 from getpass import getpass 
 
@@ -40,18 +39,21 @@ class dbModule:
 # MySQL and MariaDB Module
 class mysqlDBM(dbModule):
 
-    def __init__(self, filetype, configFN = ''):
+    def __init__(self, filetype = 'INI', configFN = ''):
         self.setDBConnectionInfo(filetype, configFN)
 
     def __del__(self):
         if self.conn != None:
             self.disConnect()
 
-    def connect(self):
+    def connect(self, cursorclass = None):
         
         if self.conn == None:
             try:
-                self.conn = pymysql.connect(host = self.host, user = self.user, password = self.password, db = self.db)
+                if cursorclass == None:
+                    self.conn = pymysql.connect(host = self.host, user = self.user, password = self.password, db = self.db)
+                else:
+                    self.conn = pymysql.connect(host = self.host, user = self.user, password = self.password, db = self.db, cursorclass = cursorclass)
             except Exception as e:
                 self.conn = None
                 self.errMsg = str(e)
@@ -106,6 +108,45 @@ class mysqlDBM(dbModule):
 
         return rtn
 
+    def getResultToJson(self, query, params = None, titleList = None):
+
+        # 여기서 부터 만들어야 함
+        rtn = []
+
+        try:
+
+            if self.conn != None:
+                self.conn.close()
+
+
+            if titleList == None:
+                self.connect(cursorclass=pymysql.cursors.DictCursor)
+            else:
+                self.connect()
+                
+            cursor = self.conn.cursor()
+            cursor.execute(query, params)
+            rows = cursor.fetchall()
+
+            if titleList != None:
+                colCnt = len(rows[0])
+                for row in rows:
+                    rowContent = {}
+                    for i in range(0, colCnt):
+                        rowContent[titleList[i]] = row[i]
+                    rtn.append(rowContent)
+            else:
+                rtn = rows
+            
+        except Exception as e:
+            self.errMsg = str(e)
+
+        finally:
+            cursor.close()
+
+        return rtn
+
+
     def executeNonQuery(self, query, params = None):
 
         rtn = None
@@ -125,10 +166,3 @@ class mysqlDBM(dbModule):
             cursor.close()
 
         return rtn
-    
-
-
-dbo = mysqlDBM('INI', 'C:\\log\\dbinfo.ini')
-print(dbo.errMsg)
-cnt = dbo.getScalar('SELECT COUNT(1) FROM USERINFO')
-print(cnt)

@@ -8,13 +8,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Minimal an Admin Panel Category Flat Bootstrap Responsive Website Template | Layout :: w3layouts</title>
+<title>Minimal an Admin Panel Category Flat Bootstrap Responsive Website Template | Profile :: w3layouts</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Minimal Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <link href="/static/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<!--<link href="/static/css/bootstrap.css" rel='stylesheet' type='text/css' />-->
 <!-- Custom Theme files -->
 <link href="/static/css/style.css" rel='stylesheet' type='text/css' />
 <link href="/static/css/font-awesome.css" rel="stylesheet"> 
@@ -52,7 +53,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 <body>
 <div id="wrapper">
-        <!----->
+      <!----->
         <nav class="navbar-default navbar-static-top" role="navigation">
              <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -61,7 +62,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-               <h1> <a class="navbar-brand" href="/index">PMS</a></h1>         
+               <h1> <a class="navbar-brand" href="index.html">Minimal</a></h1>         
 			   </div>
 			 <div class=" border-bottom">
         	<div class="full-left">
@@ -220,9 +221,78 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 <div id="page-wrapper" class="gray-bg dashbard-1">
        <div class="content-main">
  
- 	 <!--main part start-->
-	 {% block content %}{% endblock %}
- 	<!--main part end-->
+ 	<!--banner-->	
+		    <div class="banner">
+		    	<h2>
+				<a href="index.html">Home</a>
+				<i class="fa fa-angle-right"></i>
+				<span>Profile</span>
+				</h2>
+		    </div>
+		<!--//banner-->
+ 	 <!--gallery-->
+ 	 <div class=" profile">
+
+		<div class="profile-bottom">
+			<h3><i class="fa fa-user"></i>Profile</h3>
+			<div class="profile-bottom-top">
+			<div class="col-md-4 profile-bottom-img">
+				<img src="/static/images/pr.jpg" alt="">
+			</div>
+			<div class="col-md-8 profile-text">
+				<h6>Jack Dorsey</h6>
+				<table>
+				<tr><td>Department</td>  
+				<td>:</td>  
+				<td>Web Designer</td></tr>
+				
+				<tr>
+				<td>Email</td>
+				<td> :</td>
+				<td><a href="info@gmail.com">info@lorem.com</a></td>
+				</tr>
+				<tr>
+				<td>Skills</td>
+				<td> :</td>
+				<td> HTML, CSS,Jqury, Bootstrap</td>
+				</tr>
+				<tr>
+				<td>Country </td>
+				<td>:</td>
+				<td> United Arab Emirates</td>
+				</tr>
+				</table>
+			</div>
+			<div class="clearfix"></div>
+			</div>
+			<div class="profile-bottom-bottom">
+			<div class="col-md-4 profile-fo">
+				<h4>23,5k</h4>
+				<p>Followers</p>
+				<a href="#" class="pro"><i class="fa fa-plus-circle"></i>Follow</a>
+			</div>
+			<div class="col-md-4 profile-fo">
+				<h4>348</h4>
+				<p>Following</p>
+				<a href="#" class="pro1"><i class="fa fa-user"></i>View Profile</a>
+			</div>
+			<div class="col-md-4 profile-fo">
+				<h4>23,5k</h4>
+				<p>Snippets</p>
+				<a href="#"><i class="fa fa-cog"></i>Options</a>
+			</div>
+			<div class="clearfix"></div>
+			</div>
+			<div class="profile-btn">
+
+                <button type="button" href="#" class="btn bg-red">Save changes</button>
+           <div class="clearfix"></div>
+			</div>
+			 
+			
+		</div>
+	</div>
+	<!--//gallery-->
 		<!---->
 <div class="copy">
             <p> &copy; 2016 Minimal. All Rights Reserved .</p>	    </div>
@@ -232,10 +302,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
        </div>
      
 <!---->
+
 <!--scrolling js-->
 	<script src="/static/js/jquery.nicescroll.js"></script>
 	<script src="/static/js/scripts.js"></script>
 	<!--//scrolling js-->
+
 </body>
 </html>
+
+
 

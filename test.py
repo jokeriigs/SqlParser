@@ -1,35 +1,22 @@
-class Point:
-    x = 0
-    y = 0
-    
-    def __init__(self, px, py):
-        self.x = px
-        self.y = py
-    
-    def setx(self, px):
-        self.x = px
+from okUtil import dbModule
 
-    def sety(self, py):
-        self.y = py
+dbo = dbModule.mysqlDBM('INI', 'C:\\log\\dbinfo.ini')
 
-    def get(self):
-        result = (self.x, self.y)
-        return result
+jsonData = dbo.getResultToJson('select	oid, author, title, contents, date_posted from	posts')
+print (jsonData)
 
-    def move(self, dx, dy):
-        self.x += dx
-        self.y += dy
+# import pymysql
 
-point = Point(3, 4)
+# conn = pymysql.connect(host = '127.0.0.1', user = 'root', password = 'Qwerasdf11@@', db = 'pms')
 
-print (point.get())
+# curs = conn.cursor()
+# curs.execute("select	oid, author, title, contents, date_posted from		posts")
 
-point.setx(5)
-point.sety(10)
+# results = curs.fetchall()
 
-print (point.get())
+# print(results)
 
-point.move(10,23)
+# conn.close()
 
-print (point.get())
-
+# # for i in range(0, 10):
+# #     print (i)

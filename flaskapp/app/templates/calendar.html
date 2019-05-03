@@ -8,7 +8,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Minimal an Admin Panel Category Flat Bootstrap Responsive Website Template | Layout :: w3layouts</title>
+<title>Minimal an Admin Panel Category Flat Bootstrap Responsive Website Template | Calendar :: w3layouts</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Minimal Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -52,7 +52,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 <body>
 <div id="wrapper">
-        <!----->
+       <!----->
         <nav class="navbar-default navbar-static-top" role="navigation">
              <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -61,7 +61,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-               <h1> <a class="navbar-brand" href="/index">PMS</a></h1>         
+               <h1> <a class="navbar-brand" href="index.html">Minimal</a></h1>         
 			   </div>
 			 <div class=" border-bottom">
         	<div class="full-left">
@@ -220,9 +220,37 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 <div id="page-wrapper" class="gray-bg dashbard-1">
        <div class="content-main">
  
- 	 <!--main part start-->
-	 {% block content %}{% endblock %}
- 	<!--main part end-->
+ 	<!--banner-->	
+		    <div class="banner">
+		    	<h2>
+				<a href="index.html">Home</a>
+				<i class="fa fa-angle-right"></i>
+				<span>Calendar</span>
+				</h2>
+		    </div>
+		<!--//banner-->
+ 	 <!--gallery-->
+ 	 <div class="calendar">
+<div class="custom-calendar-wrap custom-calendar-full">
+				<div class="custom-header">
+
+					<h3 class="custom-month-year">
+						<span id="custom-month" class="custom-month"> </span>
+						<span id="custom-year" class="custom-year"> </span>
+						<nav>
+							<span id="custom-prev" class="custom-prev"> </span>
+							<span id="custom-next" class="custom-next"> </span>
+							<span id="custom-current" class="custom-current" title="Got to current date"></span>
+						</nav>
+						<div class="clearfix"> </div>
+					</h3>
+				</div>
+				<div id="calendar" class="fc-calendar-container"> </div>
+				<div class="clearfix"> </div>
+
+ 	 </div>
+	 </div>
+	<!--//gallery-->
 		<!---->
 <div class="copy">
             <p> &copy; 2016 Minimal. All Rights Reserved .</p>	    </div>
@@ -232,6 +260,47 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
        </div>
      
 <!---->
+<link rel="stylesheet" type="text/css" href="/static/css/calendar.css" />
+		<link rel="stylesheet" type="text/css" href="/static/css/custom_1.css" />
+		<script type="text/javascript" src="/static/js/jquery.calendario.js"></script>
+		<script type="text/javascript" src="/static/js/data.js"></script>
+		<script type="text/javascript">	
+			$(function() {
+			
+				var cal = $( '#calendar' ).calendario( {
+						onDayClick : function( $el, $contentEl, dateProperties ) {
+
+							for( var key in dateProperties ) {
+								console.log( key + ' = ' + dateProperties[ key ] );
+							}
+
+						},
+						caldata : codropsEvents
+					} ),
+					$month = $( '#custom-month' ).html( cal.getMonthName() ),
+					$year = $( '#custom-year' ).html( cal.getYear() );
+
+				$( '#custom-next' ).on( 'click', function() {
+					cal.gotoNextMonth( updateMonthYear );
+				} );
+				$( '#custom-prev' ).on( 'click', function() {
+					cal.gotoPreviousMonth( updateMonthYear );
+				} );
+				$( '#custom-current' ).on( 'click', function() {
+					cal.gotoNow( updateMonthYear );
+				} );
+
+				function updateMonthYear() {				
+					$month.html( cal.getMonthName() );
+					$year.html( cal.getYear() );
+				}
+
+				
+			
+			});
+		</script>
+
+
 <!--scrolling js-->
 	<script src="/static/js/jquery.nicescroll.js"></script>
 	<script src="/static/js/scripts.js"></script>
