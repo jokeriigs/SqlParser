@@ -1,7 +1,87 @@
 {% extends 'layout.html' %}
 
 {% block content %}
- 
+<script>
+
+	alert('{{ htmlMsg }}');
+	
+	function submitRegistForm()
+	{
+		var objFrm = document.getElementById('frmRegist');
+		var allowEnNum = /^[A-Za-z0-9+]*$/;
+		var allowNum = /^[0-9+]*$/;
+		var includeSpc = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+		var emailChk = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+		
+		if (objFrm['userid'].value == ''){
+			alert('아이디를 입력해주세요!!!');
+			objFrm['userid'].focus();
+			return;
+		}
+
+		if (allowEnNum.test(objFrm['userid'].value) == false){
+			alert('아이디는 영문과 숫자만 허용합니다!!!');
+			objFrm['userid'].focus();
+			return;
+		}
+
+		if (objFrm['username'].value == ''){
+			alert('이름을 입력해주세요!!!');
+			objFrm['username'].focus();
+			return;
+		}
+
+		if (includeSpc.test(objFrm['username'].value) == true){
+			alert('이름에 특수문자를 사용할 수 없습니다!!!');
+			objFrm['username'].focus();
+			return;
+		}
+
+		if (objFrm['userEmail'].value == ''){
+			alert('이메일을 입력해주세요!!!');
+			objFrm['userEmail'].focus();
+			return;
+		}
+
+		if (emailChk.test(objFrm['userEmail'].value) == false){
+			alert('이메일을 형식을 점검해주세요!!!');
+			objFrm['userEmail'].focus();
+			return;
+		}	
+
+		if (objFrm['phoneNumber'].value == ''){
+			alert('전화번호를 입력해주세요!!!');
+			objFrm['phoneNumber'].focus();
+			return;
+		}
+
+		if (allowNum.test(objFrm['phoneNumber'].value) == false){
+			alert('전화번호는 숫자만 허용합니다!!!');
+			objFrm['phoneNumber'].focus();
+			return;
+		}
+
+		if (objFrm['company'].value == ''){
+			alert('소속(회사)를 입력해주세요!!!');
+			objFrm['company'].focus();
+			return;
+		}
+
+		if (objFrm['password'].value == ''){
+			alert('비밀번호를 입력해주세요!!!');
+			objFrm['password'].focus();
+			return;
+		}
+
+		if (objFrm['password'].value != objFrm['passwordRep'].value){
+			alert('비밀번호가 서로 상이합니다!!!');
+			objFrm['password'].focus();
+			return;
+		}
+		
+		objFrm.submit();
+	}
+</script> 
 
  
  	<!--banner-->	
@@ -22,18 +102,18 @@
 <form id='frmRegist' name='frmRegist' method="POST">
 	 <div class="vali-form">
 	<div class="col-md-6 form-group1">
-	  <label class="control-label">아이디</label>
+	  <label class="control-label">*아이디</label>
 	  <input type="text" id='userid' name='userid' placeholder="아이디" required="" maxlength="20">
 	</div>
 	<div class="col-md-6 form-group1 form-last">
-	  <label class="control-label">이름</label>
+	  <label class="control-label">*이름</label>
 	  <input type="text" id='username' name='username' placeholder="이름" required="" maxlength="20">
 	</div>
 	<div class="clearfix"> </div>
 	</div>
 	
 	<div class="col-md-6 form-group1 group-mail">
-	  <label class="control-label">이메일</label>
+	  <label class="control-label">*이메일</label>
 	  <input type="text" id='userEmail' name='userEmail' placeholder="이메일" required="" maxlength="50">
 	</div>
 	<div class="col-md-6 form-group1 group-mail">
@@ -43,61 +123,30 @@
 	 <div class="clearfix"> </div>
 	<div class="vali-form">
 	<div class="col-md-6 form-group1">
-	  <label class="control-label">소속(회사)</label>
-	  <input type="text" id='company' name='company' placeholder="소속(회사)" required="">
+	  <label class="control-label">*소속(회사)</label>
+	  <input type="text" id='company' name='company' placeholder="소속(회사)" required="" maxlength="50">
 	</div>
 	<div class="col-md-6 form-group1 form-last">
 	  <label class="control-label">소속(부서)</label>
-	  <input type="text" id='companyPart' name='companyPart' placeholder="Mobile Number" required="">
+	  <input type="text" id='companyPart' name='companyPart' placeholder="소속(부서)">
 	</div>
 	<div class="clearfix"> </div>
 	</div>
 	 <div class="vali-form vali-form1">
 	<div class="col-md-6 form-group1">
 	  <label class="control-label">비밀번호</label>
-	  <input type="password" id='userPassword' name='userPassword' placeholder="비밀번호" required="">
+	  <input type="password" id='password' name='password' placeholder="비밀번호" required="">
 	</div>
 	<div class="col-md-6 form-group1 form-last">
 	  <label class="control-label">비밀번호(반복)</label>
-	  <input type="password" id='userPasswordRepeat' name='userPasswordRepeat' placeholder="비밀번호(반복)" required="">
+	  <input type="password" id='passwordRep' name='passwordRep' placeholder="비밀번호(반복)" required="">
 	</div>
+	<div class="clearfix"> </div>   
 	<div class="clearfix"> </div>
-	</div>
-	 <div class="col-md-12 form-group1 group-mail">
-	  <label class="control-label">Number</label>
-	  <input type="text" placeholder="Number" required="">
-	   <p class=" hint-block">Numeric values from 0-***</p>
-	</div>
-	 <div class="clearfix"> </div>
-   
-	<div class="col-md-12 form-group1 group-mail">
-	  <label class="control-label ">Date</label>
-	  <input type="date" class="form-control1 ng-invalid ng-invalid-required" ng-model="model.date" required="">
-	</div>
-	 <div class="clearfix"> </div>
-	<div class="col-md-12 form-group">
-	  <div class="checkbox1">
-		<label>
-		  <input type="checkbox" ng-model="model.winner" required="" class="ng-invalid ng-invalid-required">
-		  Are you a winner?
-		</label>
-	  </div>
-	</div>
-	 <div class="clearfix"> </div>
-	  <div class="col-md-12 form-group2 group-mail">
-	  <label class="control-label">Select</label>
-	<select>
-		<option value="">Contrary</option>
-		<option value="">Contrary1</option>
-		<option value="">Contrary2</option>
-		<option value="">Contrary3</option>
-		<option value="">Contrary4</option>
-	</select>
-	</div>
-	 <div class="clearfix"> </div>
+	<br/>
   
 	<div class="col-md-12 form-group">
-	  <button type="submit" class="btn btn-primary">Submit</button>
+	  <button type='button' onclick='submitRegistForm()' class="btn btn-primary">Submit</button>
 	  <button type="reset" class="btn btn-default">Reset</button>
 	</div>
   <div class="clearfix"> </div>

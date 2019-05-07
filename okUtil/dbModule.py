@@ -39,7 +39,7 @@ class dbModule:
 # MySQL and MariaDB Module
 class mysqlDBM(dbModule):
 
-    def __init__(self, filetype = 'INI', configFN = ''):
+    def __init__(self, filetype = 'INI', configFN = 'C:\\log\\dbinfo.ini'):
         self.setDBConnectionInfo(filetype, configFN)
 
     def __del__(self):
@@ -83,8 +83,6 @@ class mysqlDBM(dbModule):
         except Exception as e:
             self.errMsg = str(e)
         
-        finally:
-            cursor.close()
 
         return rtn
 
@@ -103,8 +101,6 @@ class mysqlDBM(dbModule):
         except Exception as e:
             self.errMsg = str(e)
 
-        finally:
-            cursor.close()
 
         return rtn
 
@@ -141,9 +137,6 @@ class mysqlDBM(dbModule):
         except Exception as e:
             self.errMsg = str(e)
 
-        finally:
-            cursor.close()
-
         return rtn
 
 
@@ -162,7 +155,5 @@ class mysqlDBM(dbModule):
         except Exception as e:
             self.errMsg = str(e)
 
-        finally:
-            cursor.close()
 
         return rtn

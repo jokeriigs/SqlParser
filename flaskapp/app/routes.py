@@ -5,9 +5,9 @@ sys.path.append('C:\\Users\\okung_kwon\\Documents\\Python Projects')
 from flask import Flask, session, redirect, url_for, escape, request, render_template
 from okUtil import dbModule, security, loger
 from datetime import datetime
+from bizLogic import register
 
 app = Flask(__name__)
-dbo = dbModule.mysqlDBM('INI', 'C:\\log\\dbinfo.ini')
 
 
 @app.route('/')
@@ -59,13 +59,32 @@ def maps():
 def profile():
     return render_template('profile.html')
 
-@app.route('/signin')
+@app.route('/login', methods=['GET', 'POST'])
+@app.route('/signin', methods=['GET', 'POST'])
 def signin():
-    return render_template('signin.html')
+    msg = ''
 
-@app.route('/signup')
+    if request.method == 'POST':
+        objBiz = register.MemberMgmt()
+        msg = objBiz.login(request, session)
+        if msg == 'SUCC':
+            return redirect('/')
+    
+    return render_template('signin.html', htmlMsg = msg)
+
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    return render_template('signup.html')
+
+    msg = ''
+    
+    if request.method == 'POST':
+        objBiz = register.MemberMgmt()
+        msg = objBiz.register(request)
+
+        if msg == 'SUCC':
+            return redirect('/login')
+            
+    return render_template('signup.html', htmlMsg = msg)
 
 @app.route('/typography')
 def typography():

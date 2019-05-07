@@ -8,7 +8,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Minimal an Admin Panel Category Flat Bootstrap Responsive Website Template | Signin :: w3layouts</title>
+<title>Project Management System | Signin :: w3layouts</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Minimal Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -20,20 +20,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href="/static/css/font-awesome.css" rel="stylesheet"> 
 <script src="/static/js/jquery.min.js"> </script>
 <script src="/static/js/bootstrap.min.js"> </script>
+<script>
+	var msg = '{{ htmlMsg }}';
+	if (msg != '') alert(msg);
+</script>
 </head>
 <body>
 	<div class="login">
-		<h1><a href="index.html">Minimal </a></h1>
+		<h1><a href="index.html">Project Management System </a></h1>
 		<div class="login-bottom">
 			<h2>Login</h2>
-			<form>
+			<form method=POST>
 			<div class="col-md-6">
 				<div class="login-mail">
-					<input type="text" placeholder="Email" required="">
-					<i class="fa fa-envelope"></i>
+					<input type="text" id='userid' name='userid' placeholder="ID" required="">
+					<i class="fa fa-user"></i>
 				</div>
 				<div class="login-mail">
-					<input type="password" placeholder="Password" required="">
+					<input type="password" id='password' name='password' placeholder="Password" required="">
 					<i class="fa fa-lock"></i>
 				</div>
 				   <a class="news-letter " href="#">
@@ -47,7 +51,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<input type="submit" value="login">
 					</label>
 					<p>Do not have an account?</p>
-				<a href="signup.html" class="hvr-shutter-in-horizontal">Signup</a>
+				<a href="/signup" class="hvr-shutter-in-horizontal">Signup</a>
 			</div>
 			
 			<div class="clearfix"> </div>
