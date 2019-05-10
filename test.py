@@ -1,22 +1,8 @@
-from okUtil import dbModule
+id = '권오궁[jokeriigs]'
 
-dbo = dbModule.mysqlDBM('INI', 'C:\\log\\dbinfo.ini')
+startpos = id.find('[')
+endpos = id.find(']')
 
-jsonData = dbo.getResultToJson('select	oid, author, title, contents, date_posted from	posts')
-print (jsonData)
-
-# import pymysql
-
-# conn = pymysql.connect(host = '127.0.0.1', user = 'root', password = 'Qwerasdf11@@', db = 'pms')
-
-# curs = conn.cursor()
-# curs.execute("select	oid, author, title, contents, date_posted from		posts")
-
-# results = curs.fetchall()
-
-# print(results)
-
-# conn.close()
-
-# # for i in range(0, 10):
-# #     print (i)
+print (startpos)
+print (endpos)
+print (id[startpos+1:endpos])

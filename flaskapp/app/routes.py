@@ -5,7 +5,7 @@ sys.path.append('C:\\Users\\okung_kwon\\Documents\\Python Projects')
 from flask import Flask, session, redirect, url_for, escape, request, render_template
 from okUtil import dbModule, security, loger
 from datetime import datetime
-from bizLogic import register
+from bizLogic import pmsmgmt
 
 app = Flask(__name__)
 
@@ -65,7 +65,7 @@ def signin():
     msg = ''
 
     if request.method == 'POST':
-        objBiz = register.MemberMgmt()
+        objBiz = pmsmgmt.MemberMgmt()
         msg = objBiz.login(request, session)
         if msg == 'SUCC':
             return redirect('/')
@@ -78,7 +78,7 @@ def signup():
     msg = ''
     
     if request.method == 'POST':
-        objBiz = register.MemberMgmt()
+        objBiz = pmsmgmt.MemberMgmt()
         msg = objBiz.register(request)
 
         if msg == 'SUCC':
@@ -93,6 +93,21 @@ def typography():
 @app.route('/validation')
 def validation():
     return render_template('validation.html')
+
+@app.route('/compose', methods=['GET', 'POST'])
+def compose():
+    if request.method == 'POST':
+        objBiz = pmsmgmt.MemberMgmt()
+        msg = objBiz.sendMessage(request, session)
+        return msg
+    else:
+        return render_template('compose.html')
+
+@app.route('/userSearch', methods=['GET', 'POST'])
+def userSearch():
+    objBiz = pmsmgmt.MemberMgmt()
+    msg = objBiz.getUserList(request)
+    return msg
 
 # @app.route('/about')
 # def about():

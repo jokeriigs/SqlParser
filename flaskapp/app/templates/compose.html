@@ -1,0 +1,241 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<script>
+    var objSetCtlId = '';
+
+    function setModal(typeValue){
+
+        var objTitle = document.getElementById('modalTitle');
+        var objList = document.getElementById('userList');
+        var objSearchVal = document.getElementById('searchVal');
+
+        objList.innerHTML = '';
+        objSearchVal.value = '';
+
+        if (typeValue == '1'){
+            objTitle.innerText = '수신 대상 검색';
+            objSetCtlId = 'receivers';
+        }else if(typeValue == '2'){
+            objTitle.innerText = '참조 대상 검색';
+            objSetCtlId = 'cc';
+        }else if(typeValue == '3'){
+            objTitle.innerText = '숨은 참조 대상 검색';
+            objSetCtlId = 'hiddencc';
+        }
+    }
+
+    function sendMessage(){
+        var chkFlag = checkForm();
+
+        if(chkFlag == true){
+            
+            var xhr = new XMLHttpRequest();
+            var frm = document.getElementById('frmMessage');
+            var data = '';
+
+            xhr.open('POST', 'http://localhost:5000/compose');
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+            for(i = 0; i < frm.length; i++){
+                if (frm[i].name != ''){
+                    data += frm[i].name + '=' + encodeURI(frm[i].value) + '&';
+                }
+            }
+
+            xhr.send(data);
+
+            xhr.onreadystatechange = function(e){
+                if(xhr.readyState == XMLHttpRequest.DONE){
+                    if (xhr.responseText == 'SUCC'){
+                        alert('메시지가 발송 되었습니다.');
+                        self.location.href = '/inbox';
+                    }else{
+                        alert('메시지 발송을 실패 했습니다.');
+                    }
+                }
+            }
+        }
+    }
+
+    function checkForm(){
+        var objForm = document.getElementById('frmMessage');
+
+        if(objForm['receivers'].value == ''){
+            alert('수신자를 입력해주세요!');
+            return false;
+        }
+
+        if(objForm['title'].value == ''){
+            alert('제목를 입력해주세요!');
+            objForm['title'].focus();
+            return false;
+        }
+
+        if(objForm['contents'].value == ''){
+            alert('내용을 입력해주세요!');
+            objForm['contents'].focus();
+            return false;
+        }
+
+        return true;
+    }
+
+    function resetMessage(){
+        var objForm = document.getElementById('frmMessage');
+        objForm.reset();
+    }
+
+</script>
+
+ 	<!--banner-->	
+		<div class="banner">
+		    <h2>
+			    <a href="/inbox">Home</a>
+			    <i class="fa fa-angle-right"></i>
+			<span>메시지</span>
+			</h2>
+		</div>
+		<!--//banner-->
+ 	<!--grid-->
+        <div class="grid-form">
+<!---->
+            <div class="grid-form1">
+                <h4><b>메시지 작성</b></h4>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="horizontal-form">
+                    <form class="form-horizontal" id='frmMessage' name='frmMessage' onsubmit="return false;" method="POST">
+                        <div class="form-group">
+                            <label for="focusedinput" class="col-sm-2 control-label">수신</label>
+                            <div class="col-sm-8">
+                                <input type="text" readonly class="form-control1" id="receivers" name="receivers" placeholder="검색으로 입력">
+                            </div>
+                            <div class="col-sm-2">
+                                <p class="help-block" ><input type='button' value='검색' data-toggle='modal' data-target='#recvModal' onclick='setModal("1");'></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="disabledinput" class="col-sm-2 control-label">참조</label>
+                            <div class="col-sm-8">
+                                <input disabled="" readonly type="text" class="form-control1" id="cc" name='cc' placeholder="검색으로 입력">
+                            </div>
+                            <div class="col-sm-2">
+                                <p class="help-block" ><input type='button' value='검색' data-toggle='modal' data-target='#recvModal' onclick='setModal("2");'></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword" class="col-sm-2 control-label">숨은참조</label>
+                            <div class="col-sm-8">
+                                <input type="text" readonly class="form-control1" id="hiddencc" name="hiddencc" placeholder="검색으로 입력">
+                            </div>
+                            <div class="col-sm-2">
+                                <p class="help-block" ><input type='button' value='검색' data-toggle='modal' data-target='#recvModal' onclick='setModal("3");'></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="disabledinput" class="col-sm-2 control-label">제목</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control1" id="title" name='title' placeholder="제목" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtarea1" class="col-sm-2 control-label">내용</label>
+                            <div class="col-sm-8"><textarea name="contents" id="contents" cols="50" rows="4" class="form-control1" style='height:300px'></textarea></div>
+                            </div>
+                        </div>
+                        <div class="bs-example" data-example-id="form-validation-states-with-icons">
+                            <span id="inputGroupSuccess1Status" class="sr-only">(success)</span>
+                        </div>
+
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <button class="btn-primary btn" onclick="sendMessage();">보내기</button>
+                                    <button class="btn-inverse btn" onclick="resetMessage()">초기화</button>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            
+            function searchUser()
+            {
+                var searchVal = document.getElementById('searchVal').value;
+                var sendData = 'searchval=' + encodeURI(searchVal);
+                var objList = document.getElementById('userList');
+                var xhr = new XMLHttpRequest();
+                
+                xhr.open('POST', 'http://localhost:5000/userSearch');
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.send(sendData);
+                xhr.onreadystatechange = function(e){
+                    if(xhr.readyState == XMLHttpRequest.DONE){
+                        objList.innerHTML = '';
+                        items = xhr.responseText.split('@@');
+                        items.forEach(addOption);
+                    }
+                }
+            }
+
+            function addOption(item, index){
+
+                var objList = document.getElementById('userList');
+                var objOpt = document.createElement('option');
+                
+                if (item != ''){
+                    objOpt.value = item.split('@')[0];
+                    objOpt.text = item.split('@')[1] + ' [' + objOpt.value + ']';
+                    objList.add(objOpt);
+                }
+            }
+
+            function setUser(){
+                var objList = document.getElementById('userList');
+                var objRecv = document.getElementById(objSetCtlId);
+
+                for(i=0; i<objList.options.length; i++){
+                    if (objList.options[i].selected == true){
+                        if (objRecv.value != ''){
+                            objRecv.value += ';';
+                        }
+                        objRecv.value += objList.options[i].text;
+                    }
+                }
+            }
+
+        </script>
+
+        <!-- 수신자 Modal -->
+        <div class="modal fade" id="recvModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div id='modalTitle' class="modal-header">
+                        수신 대상 검색
+                    </div>
+                    <div class='modal-body'>
+                        <input type="text" class="form-control1"  id="searchVal" name='searchVal' placeholder="이름 또는 아이디로 검색" onkeydown="if(event.keyCode == 13){searchUser();}" maxlength="100">
+                        <br><br>
+                        <button type="button" class="btn btn-default" onclick='searchUser()'>검색</button>
+                    </div>
+                    <div class='modal-body'>
+                        <select multiple="" id='userList' name='userList' class="form-control1">
+                            <option value=''></option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick='setUser();'>적용</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 	<!--//grid-->
+		<!---->
+
+{% endblock %}
